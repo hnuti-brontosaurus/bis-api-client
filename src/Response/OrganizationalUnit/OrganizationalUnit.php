@@ -1,8 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
+namespace HnutiBrontosaurus\BisClient\Response\OrganizationalUnit;
 
-use Grifart\Enum\MissingValueDeclarationException;
+use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
 final class OrganizationalUnit
@@ -14,40 +14,33 @@ final class OrganizationalUnit
 		private string $street,
 		private string $city,
 		private string $postCode,
-		private ?string $phone,
-		private ?string $email,
+		private ?Coordinates $coordinates,
+		private string $phone,
+		private string $email,
 		private ?string $website,
 		private OrganizationalUnitType $type,
-		private ?string $chairman,
-		private ?string $manager,
+		private string $chairman,
+		private string $manager,
 	) {}
 
 
-	/**
-	 * @throws UnknownOrganizationUnitTypeException
-	 */
-	public static function fromResponseData(array $data): self
+	public static function fromResponseData(\stdClass $data): self
 	{
-		try {
-			$organizationalUnitTypeScalar = (int) $data['uroven'];
-			$organizationalUnitType = OrganizationalUnitType::fromScalar($organizationalUnitTypeScalar);
-
-		} catch (MissingValueDeclarationException) {
-			throw new UnknownOrganizationUnitTypeException('Type `' . $organizationalUnitTypeScalar . '` is not of valid types.');
-		}
-
 		return new self(
-			(int) $data['id'],
-			$data['nazev'],
-			$data['ulice'],
-			$data['mesto'],
-			$data['psc'],
-			(isset($data['telefon']) && $data['telefon'] !== '') ? $data['telefon'] : null,
-			(isset($data['email']) && $data['email'] !== '') ? $data['email'] : null,
-			(isset($data['www']) && $data['www'] !== '') ? $data['www'] : null,
-			$organizationalUnitType,
-			(isset($data['predseda']) && $data['predseda'] !== '') ? $data['predseda'] : null,
-			(isset($data['hospodar']) && $data['hospodar'] !== '') ? $data['hospodar'] : null,
+			$data->id,
+			$data->name,
+			$data->street,
+			$data->city,
+			$data->zip_code,
+			$data->gps_latitude !== null && $data->gps_longitude !== null
+				? Coordinates::from($data->gps_latitude, $data->gps_longitude)
+				: null,
+			$data->telephone,
+			$data->from_email_address,
+			$data->web_url,
+			OrganizationalUnitType::fromScalar($data->level),
+			$data->president_name,
+			$data->manager_name,
 		);
 	}
 
@@ -82,13 +75,19 @@ final class OrganizationalUnit
 	}
 
 
-	public function getPhone(): ?string
+	public function getCoordinates(): ?Coordinates
+	{
+		return $this->coordinates;
+	}
+
+
+	public function getPhone(): string
 	{
 		return $this->phone;
 	}
 
 
-	public function getEmail(): ?string
+	public function getEmail(): string
 	{
 		return $this->email;
 	}
@@ -100,13 +99,13 @@ final class OrganizationalUnit
 	}
 
 
-	public function getChairman(): ?string
+	public function getChairman(): string
 	{
 		return $this->chairman;
 	}
 
 
-	public function getManager(): ?string
+	public function getManager(): string
 	{
 		return $this->manager;
 	}

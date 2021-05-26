@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\OrganizationalUnit;
+namespace HnutiBrontosaurus\BisClient\Response\OrganizationalUnit;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
@@ -16,8 +16,8 @@ final class OrganizationalUnitType extends Enum
 {
 	use AutoInstances;
 
-	protected const CLUB = 1;
-	protected const BASE = 2;
-	protected const REGIONAL = 3;
-	protected const OFFICE = 4;
+	protected const CLUB = 'club';
+	protected const BASE = 'basic_section';
+	protected const REGIONAL = 'regional_center';
+	protected const OFFICE = 'headquarter';
 }

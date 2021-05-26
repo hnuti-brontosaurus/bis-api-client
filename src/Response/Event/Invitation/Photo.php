@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Invitation;
 
 
 final class Photo

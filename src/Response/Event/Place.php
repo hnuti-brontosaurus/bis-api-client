@@ -1,6 +1,8 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Response\Event;
+
+use HnutiBrontosaurus\BisClient\Response\Coordinates;
 
 
 final class Place
@@ -8,20 +10,15 @@ final class Place
 
 	private function __construct(
 		private string $name,
-		private ?string $coordinates, // in format 49.132456 16.123456
+		private ?Coordinates $coordinates,
 	) {}
 
 
 	public static function from(
 		string $name,
-		?string $coordinates,
+		?Coordinates $coordinates,
 	): self
 	{
-		// only `49.132456 16.123456` format is used by users right now
-		if ($coordinates !== null && ! \preg_match('|[0-9]+(\.[0-9]+) [0-9]+(\.[0-9]+)|', $coordinates)) {
-			$coordinates = null;
-		}
-
 		return new self($name, $coordinates);
 	}
 
@@ -32,13 +29,7 @@ final class Place
 	}
 
 
-	public function areCoordinatesListed(): bool
-	{
-		return $this->coordinates !== null;
-	}
-
-
-	public function getCoordinates(): ?string
+	public function getCoordinates(): ?Coordinates
 	{
 		return $this->coordinates;
 	}

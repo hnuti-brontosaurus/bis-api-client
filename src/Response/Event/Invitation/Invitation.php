@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Invitation;
 
 
 final class Invitation
@@ -51,12 +51,6 @@ final class Invitation
 	}
 
 
-	public function isAccommodationListed(): bool
-	{
-		return $this->accommodation !== null;
-	}
-
-
 	public function getAccommodation(): ?string
 	{
 		return $this->accommodation;
@@ -75,21 +69,9 @@ final class Invitation
 	}
 
 
-	public function areWorkHoursPerDayListed(): bool
-	{
-		return $this->workHoursPerDay !== null;
-	}
-
-
 	public function getWorkHoursPerDay(): ?int
 	{
 		return $this->workHoursPerDay;
-	}
-
-
-	public function hasPresentation(): bool
-	{
-		return $this->presentation !== null;
 	}
 
 

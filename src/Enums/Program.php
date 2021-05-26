@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Enums;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
@@ -19,7 +19,7 @@ final class Program extends Enum
 {
 	use AutoInstances;
 
-	protected const NONE = 'none';
+	protected const NONE = '';
 	protected const NATURE = 'nature';
 	protected const SIGHTS = 'monuments';
 	protected const BRDO = 'children_section';

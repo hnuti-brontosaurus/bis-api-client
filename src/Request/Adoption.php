@@ -1,38 +1,34 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Request;
+namespace HnutiBrontosaurus\BisClient\Request;
+
+use HnutiBrontosaurus\BisClient\UsageException;
 
 
-final class Adoption extends Parameters
+final class Adoption implements ToArray
 {
 
 	public function __construct(
-		int $amount,
-		string $firstName,
-		string $lastName,
-		string $streetAddress,
-		string $streetNumber,
-		string $postalCode,
-		string $city,
-		string $emailAddress,
-		?int $preferredUnitOfTypeRegional,
-		?int $preferredUnitOfTypeBase,
-		bool $excludeFromPublic,
+		private int $amount,
+		private string $firstName,
+		private string $lastName,
+		private string $streetAddress,
+		private string $streetNumber,
+		private string $postalCode,
+		private string $city,
+		private string $emailAddress,
+		private ?int $preferredUnitOfTypeRegional,
+		private ?int $preferredUnitOfTypeBase,
+		private bool $excludeFromPublic,
 	) {
-		parent::__construct([
-			self::PARAM_QUERY => 'adopce',
-			'f_jmeno' => $firstName,
-			'f_prijmeni' => $lastName,
-			'f_ulice' => $streetAddress . ' ' . $streetNumber,
-			'f_mesto' => $city,
-			'f_psc' => $postalCode,
-			'f_email' => $emailAddress,
-			'f_pohlavi' => null, // not required, but accepted by BIS (values muz/zena)
-			'f_uvest_v_seznamu' => $excludeFromPublic ? 'off' : 'on',
-			'f_clanek' => $preferredUnitOfTypeBase,
-			'f_rc' => $preferredUnitOfTypeRegional,
-			'f_castka' => $amount,
-		]);
+		throw new UsageException('This is not implemented yet.');
 	}
+
+
+	public function toArray(): array
+	{
+		return [];
+	}
+
 
 }

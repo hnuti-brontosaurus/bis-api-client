@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Invitation;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
@@ -16,8 +16,8 @@ final class Food extends Enum
 {
 	use AutoInstances;
 
-	protected const NOT_LISTED = -1;
-	protected const CHOOSEABLE = 0;
-	protected const VEGETARIAN = 1;
-	protected const NON_VEGETARIAN = 2;
+	protected const NOT_LISTED = '';
+	protected const CHOOSEABLE = 'can_choose';
+	protected const VEGETARIAN = 'non_vegetarian';
+	protected const NON_VEGETARIAN = 'vegetarian';
 }

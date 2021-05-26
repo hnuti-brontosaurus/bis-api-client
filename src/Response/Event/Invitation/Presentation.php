@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Invitation;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Invitation;
 
 
 final class Presentation
@@ -24,22 +24,11 @@ final class Presentation
 	}
 
 
-	public function hasText(): bool
-	{
-		return $this->text !== null;
-	}
-
-
 	public function getText(): ?string
 	{
 		return $this->text;
 	}
 
-
-	public function hasAnyPhotos(): bool
-	{
-		return \count($this->photos) > 0;
-	}
 
 	/**
 	 * @return Photo[]

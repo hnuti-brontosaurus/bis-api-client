@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Registration;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Registration;
 
 use Grifart\Enum\AutoInstances;
 use Grifart\Enum\Enum;
@@ -17,9 +17,9 @@ final class RegistrationTypeEnum extends Enum
 {
 	use AutoInstances;
 
-	protected const BRONTOWEB = 1;
-	protected const EMAIL = 2;
-	protected const EXTERNAL_WEBPAGE = 3;
-	protected const NONE = 4;
-	protected const DISABLED = 5;
+	protected const BRONTOWEB = 'standard';
+	protected const EMAIL = 'by_email';
+	protected const EXTERNAL_WEBPAGE = 'other_electronic';
+	protected const NONE = 'not_required';
+	protected const DISABLED = 'full';
 }

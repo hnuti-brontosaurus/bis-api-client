@@ -1,16 +1,13 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Registration;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Registration;
 
-use HnutiBrontosaurus\BisApiClient\BadUsageException;
-use HnutiBrontosaurus\BisApiClient\Response\RegistrationTypeException;
+use HnutiBrontosaurus\BisClient\RuntimeException;
+use HnutiBrontosaurus\BisClient\UsageException;
 
 
 final class RegistrationType
 {
-
-	private bool $hasValidData;
-
 
 	/**
 	 * @param RegistrationQuestion[] $questions
@@ -20,14 +17,7 @@ final class RegistrationType
 		private array $questions, // in case of registering via Brontoweb
 		private ?string $email, // in case of registering via e-mail
 		private ?string $url, // in case of registering via custom webpage
-	) {
-		$this->hasValidData = match (true) {
-			$type->equals(RegistrationTypeEnum::EMAIL()) && $email === null,
-			$type->equals(RegistrationTypeEnum::EXTERNAL_WEBPAGE()) && $url === null,
-				=> false,
-			default => true
-		};
-	}
+	) {}
 
 	/**
 	 * @param RegistrationQuestion[] $questions
@@ -51,11 +41,6 @@ final class RegistrationType
 	}
 
 
-	public function areAnyQuestions(): bool
-	{
-		return \count($this->questions) > 0;
-	}
-
 	/**
 	 * @return RegistrationQuestion[]
 	 */
@@ -72,18 +57,19 @@ final class RegistrationType
 		return $this->type->equals(RegistrationTypeEnum::EMAIL());
 	}
 
-	/**
-	 * @throws RegistrationTypeException
-	 * @throws BadUsageException
-	 */
 	public function getEmail(): ?string
 	{
-		if ( ! $this->hasValidData()) {
-			throw RegistrationTypeException::missingAdditionalData('email', $this->type);
+		if ( ! $this->isOfTypeEmail()) {
+			throw new UsageException('This method can not be called when the registration is not of `via e-mail` type.');
 		}
 
-		if ( ! $this->isOfTypeEmail()) {
-			throw new BadUsageException('This method can not be called when the registration is not of `via e-mail` type.');
+		if ($this->email === null) {
+			/*
+			 * Ideally, this should not happen, but we can not rely on it. If it happens, we want to know about it ->
+			 * assert() is not enough. We can just log it, but that would lead user into clicking a button which does nothing.
+			 * Thus rendering error page covers both – logging and preventing user from accessing non-working page.
+			 */
+			throw new RuntimeException('E-mail must not be null in case of registration via e-mail.');
 		}
 
 		return $this->email;
@@ -97,18 +83,19 @@ final class RegistrationType
 		return $this->type->equals(RegistrationTypeEnum::EXTERNAL_WEBPAGE());
 	}
 
-	/**
-	 * @throws RegistrationTypeException
-	 * @throws BadUsageException
-	 */
 	public function getUrl(): ?string
 	{
-		if ( ! $this->hasValidData()) {
-			throw RegistrationTypeException::missingAdditionalData('url', $this->type);
+		if ( ! $this->isOfTypeCustomWebpage()) {
+			throw new UsageException('This method can not be called when the registration is not of `via custom webpage` type.');
 		}
 
-		if ( ! $this->isOfTypeCustomWebpage()) {
-			throw new BadUsageException('This method can not be called when the registration is not of `via custom webpage` type.');
+		if ($this->url === null) {
+			/*
+			 * Ideally, this should not happen, but we can not rely on it. If it happens, we want to know about it ->
+			 * assert() is not enough. We can just log it, but that would lead user into clicking a button which does nothing.
+			 * Thus rendering error page covers both – logging and preventing user from accessing non-working page.
+			 */
+			throw new RuntimeException('URL must not be null in case of registration via custom webpage.');
 		}
 
 		return $this->url;
@@ -128,12 +115,6 @@ final class RegistrationType
 	public function isOfTypeDisabled(): bool
 	{
 		return $this->type->equals(RegistrationTypeEnum::DISABLED());
-	}
-
-
-	public function hasValidData(): bool
-	{
-		return $this->hasValidData;
 	}
 
 }

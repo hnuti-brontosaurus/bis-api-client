@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event\Registration;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Registration;
 
 
 final class RegistrationQuestion

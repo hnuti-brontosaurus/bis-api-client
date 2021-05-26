@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Organizer;
 
 
 final class Organizer
@@ -10,9 +10,7 @@ final class Organizer
 		private ?OrganizerOrganizationalUnit $organizationalUnit,
 		private ?string $responsiblePerson,
 		private ?string $organizers,
-		private ?string $contactPersonName,
-		private string $contactPhone,
-		private string $contactEmail,
+		private ContactPerson $contactPerson,
 	) {}
 
 
@@ -20,18 +18,14 @@ final class Organizer
 		?OrganizerOrganizationalUnit $organizationalUnit,
 		?string $responsiblePerson,
 		?string $organizers,
-		?string $contactPersonName,
-		string $contactPhone,
-		string $contactEmail,
+		ContactPerson $contactPerson,
 	): self
 	{
 		return new self(
 			$organizationalUnit,
 			$responsiblePerson,
 			$organizers,
-			$contactPersonName,
-			$contactPhone,
-			$contactEmail,
+			$contactPerson,
 		);
 	}
 
@@ -48,33 +42,15 @@ final class Organizer
 	}
 
 
-	public function areOrganizersListed(): bool
-	{
-		return $this->organizers !== null;
-	}
-
-
 	public function getOrganizers(): ?string
 	{
 		return $this->organizers;
 	}
 
 
-	public function getContactPersonName(): ?string
+	public function getContactPerson(): ContactPerson
 	{
-		return $this->contactPersonName;
-	}
-
-
-	public function getContactPhone(): string
-	{
-		return $this->contactPhone;
-	}
-
-
-	public function getContactEmail(): string
-	{
-		return $this->contactEmail;
+		return $this->contactPerson;
 	}
 
 }

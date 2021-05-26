@@ -1,37 +1,32 @@
 <?php declare(strict_types = 1);
 
-namespace HnutiBrontosaurus\BisApiClient\Response\Event;
+namespace HnutiBrontosaurus\BisClient\Response\Event\Organizer;
 
 
-/**
- * This could be OrganizationalUnit instead as well,
- * but one more request per each event would be generated which is kinda wasteful.
- * And Brontosaurus does not want any more waste... :-)
- */
 final class OrganizerOrganizationalUnit
 {
 
 	private function __construct(
-		private int $id,
 		private string $name,
+		private ?string $website,
 	) {}
 
 
-	public static function from(int $id, string $name): self
+	public static function from(string $name, ?string $website): self
 	{
-		return new self($id, $name);
-	}
-
-
-	public function getId(): int
-	{
-		return $this->id;
+		return new self($name, $website);
 	}
 
 
 	public function getName(): string
 	{
 		return $this->name;
+	}
+
+
+	public function getWebsite(): ?string
+	{
+		return $this->website;
 	}
 
 }
